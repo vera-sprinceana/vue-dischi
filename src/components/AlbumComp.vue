@@ -16,6 +16,7 @@
         title: String,  
         author: String,
         year: String,
+        genre: String,
     }
     }
 </script>
