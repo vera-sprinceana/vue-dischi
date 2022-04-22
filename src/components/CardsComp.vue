@@ -1,20 +1,11 @@
 <template>
     <div class="container pt-3">
         <div class="row row-cols-6"> 
-            <div class="d-flex">
-                <SelectComp @funzioneSelezione="metodoSelezione"/> 
-            </div>
-           
             <AlbumComp
-                v-for="(element, index) in filtraggioSelezione"
+                v-for="(element, index) in filterDisk"
                 :key="index"
-                :author="element.author"
-                :poster="element.poster"
-                :title="element.title"
-                :year="element.year"
-                :genre="element.genre"
-            /> 
-               
+                :elem="element"
+            />   
         </div>
            
     </div>
@@ -22,53 +13,46 @@
 <script>
 import axios from 'axios';
 import AlbumComp from './AlbumComp.vue';
-import SelectComp from './SelectComp.vue';
 export default {
   name: 'CardsComp',
    components: {
         AlbumComp,
-        SelectComp,
-    }, 
-    data(){
-        return{
-         filtraggioArray:[],
-         testoRicerca: '',
+    },
+    props:{
+        passaGenProps: String
+    },
+    computed:{
+        filterDisk(){
+            if(this.passaGenProps===''){
+                return this.dischi
+            }else{
+                return this.dischi.filter((elem)=>{
+                    return elem.genre.includes(this.passaGenProps)
+                })
+            }
         }
     },
-    conputed:{
-        filtraggioSelezione(){
-            if( this.testoRicerca === '' ){
-            return this.filtraggioArray
-            }
-            return this.filtraggioArray.filter( (elem) => {
-            return elem.genre.toLowerCase().includes(this.testoRicerca.toLowerCase())
-        })
-      
-        
+    data(){
+        return{
+         dischi:[],
+         generi:[],
+        }
     },
     created(){
         axios.get( 'https://flynn.boolean.careers/exercises/api/array/music' )
             .then((res)=>{
                 console.log( res.data.response );
-                this.filtraggioArray=res.data.response
+                this.dischi=res.data.response
+
+                 this.dischi.forEach((elem) => {
+                    if(!this.generi.includes(elem.genre))
+                    this.generi.push(elem.genre)
+                    })
+                    this.$emit('generiP', this.generi)
             })
-            .catch( (error) => {
-                console.log( error )
-            })
-    },  
-    methods:{
-        metodoSelezione(testo){
-            console.log(testo)
-            this.testoRicerca = testo
-            console.log(this.testoRicerca)
-        },
-    },
-   
-         
+    },     
 }
 
-
-}
 </script>
 
 <style scoped lang="scss">

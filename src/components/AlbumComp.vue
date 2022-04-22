@@ -1,9 +1,9 @@
 <template>
   <div class="m-3  bg_custom text-center py-3">
-    <img :src="poster" alt="" class="p-2">
-    <h3> {{title}} </h3>
-    <h4> {{author}} </h4>
-    <span> {{year}} </span>
+    <img :src="elem.poster" alt="" class="p-2">
+    <h3> {{elem.title}} </h3>
+    <h4> {{elem.author}} </h4>
+    <span> {{elem.year}} </span>
   </div>
 </template>
 
@@ -11,13 +11,14 @@
 
     export default {
     name: 'AlbumComp',
-    props:{
-        poster: String,
-        title: String,  
-        author: String,
-        year: String,
-        genre: String,
-    }
+        props:{
+            elem: String,
+        // poster: String,
+        // title: String,  
+        // author: String,
+        // year: String,
+        // genre: String,
+        }
     }
 </script>
 

@@ -1,8 +1,14 @@
 <template>
   <div>
-    <HeaderComp/>
+    <HeaderComp
+    :passaGeneriProps="generi"
+    @inviaGenSel="ottieniGenSel"
+    />
     <div class="bg-main">
-      <CardsComp/>
+      <CardsComp
+      @generiP="ottieniGeneri"
+      :passaGenProps="genereSelezionato"
+      />
     </div>
   </div>
 </template>
@@ -16,10 +22,24 @@ export default {
   components: {
     HeaderComp,
     CardsComp,
+  },
+  data(){
+    return{
+      generi:[],
+      genereSelezionato:''
+    }
+    
+  },
+  methods:{
+    ottieniGeneri(myGenre){
+      this.generi=myGenre
+    },
+    ottieniGenSel(genSel){
+      this.genereSelezionato=genSel
+    }
   }
 }
 </script>
-
 <style lang="scss">
 @import "bootstrap/dist/css/bootstrap.min.css";
 .bg-main{
